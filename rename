@@ -1,0 +1,35 @@
+# _*_ coding:utf-8 _*_
+"""
+    file: rename.py
+    date: 2020-01-09 0:07
+    author: Apark
+    desc:Rename the specified format file with a certain Characters,And add a suffix e.g.,"_25"
+     
+    """
+import os
+import re
+def rename():
+    i = 0
+    spec_Format='.s2p'
+    path =os.getcwd()
+    filelist = os.listdir(path) #该文件夹下所有的文件（包括文件夹）
+    for files in filelist: #遍历所有文件
+        Olddir = os.path.join(path, files) #原来的文件路径
+        if os.path.isdir(Olddir): #如果是文件夹则跳过
+            continue
+        if os.path.splitext(files)[1] == spec_Format or os.path.splitext(files)[1] == '.S2P':
+            filename = os.path.splitext(files)[0]
+            Char_Num = int(len("_25"))*-1
+            if filename[Char_Num :] != '_25':
+                i += 1
+                filename = filename + '_25'
+            filename = re.sub(r'[-.]', '_', filename)
+            filename= filename+spec_Format
+            print(filename)
+            Newdir = os.path.join(path, filename) #新的文件路径
+            os.rename(Olddir, Newdir) #重命名
+    print("一共修改了"+str(i)+"个文件")
+    return True
+if __name__ == '__main__':
+    rename()
+
